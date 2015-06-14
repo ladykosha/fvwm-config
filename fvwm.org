@@ -87,7 +87,7 @@ Xautolock.locker: slock
 !notifier        Specifies the notifier. No quotes are needed, even if
 !                the notifier command contains multiple words.
 !bell            Specifies the notification loudness. Numerical.
-Xautolock.corners: 0+0-
+Xautolock.corners: 0+00
 !       top left, top right, bottom left, bottom right.  
 !       A '0' indicates that xautolock should ignore the
 !       corner.  A '+' indicates that xautolock should start the locker after
@@ -98,7 +98,7 @@ Xautolock.corners: 0+0-
 !       Specifies the corner behaviour, as explained above.
 Xautolock.cornersize: 16
 !      Specifies the size of the corner areas. Numerical.
-Xautolock.cornerdelay: 1
+Xautolock.cornerdelay: 3
 !      Specifies the delay of a '+' corner. Numerical.
 Xautolock.cornerredelay: 60
 !   Specifies  the  alternative  delay  of  a '+' corner.
@@ -240,7 +240,7 @@ specified window to handle.  This is only a valid action for
 window-specific bindings.
 	
 **** поговорить про мышу и окошки
-
+#+BEGIN_SRC org :tangle no
     # Recall that mouse formats look like this:
     #
     # +------------+
@@ -270,6 +270,7 @@ window-specific bindings.
     #
     # Modifiers: (A)ny, (C)ontrol, (S)hift, (M)eta, (N)othing
     # -------------------------------------------------------------
+#+END_SRC
 
 **** Привязки к win-клавише.
 #+BEGIN_SRC org :tangle ~/.fvwm/config
@@ -292,6 +293,7 @@ Key F3		A	MS	WindowList mouse -1p -1p
 #+END_SRC
 
 **** Alt-Shift-Fx window operations
+#+BEGIN_SRC org :tangle no
 Key F4		A	MS	Close
 Key F5		A	MS	RaiseLower
 Key F6		A	MS	All (Iconic) Raise  
@@ -300,6 +302,8 @@ Key F8		A	MS	Resize
 Key F9		A	MS	Iconify
 Key F10		A	MS	Maximize ewmhiwa
 # Key F12		A	MS	FvwmIdent
+#+END_SRC
+
 #+BEGIN_SRC org :tangle ~/.fvwm/config
 Key F12		A	MS	FvwmConsole
 #+END_SRC
@@ -366,6 +370,7 @@ Mouse 3         W       SM       RaiseLower
 **** Mouse windows buttons binding 				      :notinuse:
 
 Не юзается по причине отсутствия у меня тайтлов и кнопок на них )
+#+BEGIN_SRC org :tangle no
 # buttons: 1 3 5 7 9              8 6 4 2
 #------------------------------------------------------------------------------
 
@@ -383,9 +388,10 @@ Mouse 3         4       A       Maximize 100 0
 Mouse 1		6    	A     	Iconify
 Mouse 2		6    	A     	All ($c) Iconify On
 Mouse 3         6       A       All ($c) WindowShade On
+#+END_SRC
 
 **** Now some keyboard shortcuts. 				      :notinuse:
-
+#+BEGIN_SRC org :tangle no
 #------------------------------------------------------------------------------
 #	Key [(window)] Keyname Context Modifiers Function
 #		Binds a keyboard key to a specified fvwm command, or removes the binding if Function is '-'.
@@ -426,6 +432,7 @@ Mouse 3         6       A       All ($c) WindowShade On
  Key Next	R       M       Desk  -1 0 0 3
  Key Prior	A       CM      Desk  +1 0 0 3
  Key Prior	R       M       Desk  +1 0 0 3
+#+END_SRC
 
 *** colorsets
 **** FVWM Colorsets (0-9)
@@ -2706,6 +2713,8 @@ AddToFunc   InitFunction
  + I Exec exec kbdd 
  + I Exec exec fbxkb
 # Переключатель раскладки и иконка для трея
+ + I Exec exec  rofi -key-run mod4+1 -key-window mod4+2 -key-ssh mod4+3
+# Переключалка окон и запускалка программ, альтернатива dmenu
  + I Exec exec xautolock
 # Автоблокировка по таймауту
  + I Exec exec conky -c ~/.conkyrc2dzen | dzen2 -bg moccasin -fg black -x 300 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
