@@ -1294,13 +1294,14 @@ Test (f  /etc/X11/fvwm/menudefs.hook) SetDebianMenu
 
 DestroyMenu Utilities
 AddToMenu   Utilities "Root Menu" Title
-+ "&Часто"%star.png%				Popup Often
-+ "&Программы"%sun2.png%			Popup /Debian/Приложения
+# + "&Часто"%star.png%				Popup Often
+# + "&Программы"%sun2.png%			Popup /Debian/Приложения
 + "&Fvwm"%cat-yellow.png%			Popup Fvwm
-+ "&Debian"%debian-logo24.png%	  		Popup /Debian
+# + "&Debian"%debian-logo24.png%	  		Popup /Debian
 + ""				Nop
 + "&Emacs"%emacs22.png%		Exec exec emacsclient -c -a ""
-+ "&PCManFM%pcmanfm24.png%"	Exec exec /usr/bin/pcmanfm
++ "&SpaceFM"			Exec exec /usr/bin/spacefm
++ "&Iceweasel"			Exec exec /usr/bin/iceweasel
 + "&Urxvt"                      Exec exec urxvt
 + ""				Nop
 + "&Выход"%apple-red2-24.png%	FvwmForm FvwmForm-QuitVerify
@@ -1313,13 +1314,9 @@ AddToMenu   Often
 + "&Calibre"                    Exec exec calibre
 + "&Ebook-viewer"               Exec exec ebook-viewer
 + "&Wikidpad"%wikidpad16.png%     Exec exec wikidpad
-+ "&GCStar"                     Exec exec gcstar
 + ""						Nop
-+ "&Iceweasel"%iceweasel24.xpm%	        Exec exec iceweasel
-+ "&Balsa"%mail.png%		Exec exec balsa
 + "&Pidgin"%pidgin-menu24.xpm%		Exec exec pidgin
 + "Sy&ndie"%syndie.xpm%		        Exec exec syndie
-+ "&qbittorrent"%/usr/share/icons/hicolor/24x24/apps/qbittorrent.png%     Exec exec qbittorrent
 + "&Mnemosyne"%mnemosyne24.xpm%	        Exec exec mnemosyne
 #+END_SRC
 **** Fvwm
