@@ -1,4 +1,4 @@
-# -*- mode: org; buffer-auto-save-file-name: nil; -*-
+# -*- mode: org; -*-
 #+TITLE: Конфиг fvwm
 #+LANGUAGE: ru
 #+OPTIONS: H:5 num:nil toc:t @:t ::t |:t f:t todo:nil pri:t tags:nil
@@ -68,45 +68,6 @@ URxvt*perl-ext: tabbed
 URxvt*tintColor: white
 URxvt*shading:85
 URxvt*saveLines: 3200
-
-Xautolock.time: 15
-!Specifies the primary timeout. Numerical.
-
-Xautolock.locker: slock
-!Specifies the locker. No quotes are needed,  even  if
-!the locker command contains multiple words.
-
-!Xautolock.killtime: 15
-!Specifies the secondary timeout. Numerical.
-!Xautolock.killer:
-!                Specifies  the  killer. Любая команда, которая выполняется столько раз
-! сколько истекает killtime во время залоченности. No quotes are needed, even if
-!                the killer command contains multiple words.
-
-!notify          Specifies the notification margin. Numerical.
-!notifier        Specifies the notifier. No quotes are needed, even if
-!                the notifier command contains multiple words.
-!bell            Specifies the notification loudness. Numerical.
-Xautolock.corners: 0+00
-!       top left, top right, bottom left, bottom right.  
-!       A '0' indicates that xautolock should ignore the
-!       corner.  A '+' indicates that xautolock should start the locker after
-!       secs or altsecs seconds (see below for the difference between  both),
-!       unless  the mouse is moved or keyboard input is received. A '-' indi‐
-!       cates that xautolock should not start the locker at all.  The  pixels
-!       argument specifies the size in pixels of the corner areas.
-!       Specifies the corner behaviour, as explained above.
-Xautolock.cornersize: 16
-!      Specifies the size of the corner areas. Numerical.
-Xautolock.cornerdelay: 3
-!      Specifies the delay of a '+' corner. Numerical.
-Xautolock.cornerredelay: 60
-!   Specifies  the  alternative  delay  of  a '+' corner.
-!                       Numerical.
-!       resetsaver      Reset the default X screen saver. Boolean.
-!       nocloseout      Do not close stdout. Boolean.
-!       nocloseerr      Do not close stderr. Boolean.
-!       noclose         Close neither stdout nor stderr. Boolean.
 
 *tkTheme: clam
 #+END_SRC
@@ -2693,30 +2654,31 @@ You do not need to define all special functions if some are empty.  Also note, a
 #+END_EXAMPLE
 **** Собственно стартовая функция
 Выполняется при запуске.
+
 #+BEGIN_SRC org :tangle ~/.fvwm/config
 DestroyFunc InitFunction
 AddToFunc   InitFunction
- + I Exec exec xrdb -load ~/.Xresources
 # настройки для urxvt, emacs, xautolock, dzen2
- + I Module FvwmCommandS
+ + I Exec exec xrdb -load ~/.Xresources
 # Чтоб было можно общаться с fvwm из командной строки, в т.ч. чтобы цитатособиралка работала
- + I Exec exec xphoon
+ + I Module FvwmCommandS
 # fvwm-root --retain-pixmap $[FVWM_USERDIR]/backgrounds/runes/d.png
 # Фоновая картинка
- + I Exec exec dunst
+ + I Exec exec xphoon
 # демон уведомлений через libnotify
- + I Exec exec stalonetray --geometry=1x1+1333+749 --sticky --transparent --decorations=none --grow-gravity=E --icon-gravity SW --icon-size=16 --sticky  --window-layer=top 
+ + I Exec exec dunst
 # Трей.
+ + I Exec exec stalonetray --geometry=1x1+1333+749 --sticky --transparent --decorations=none --grow-gravity=E --icon-gravity SW --icon-size=16 --sticky  --window-layer=top 
+# Переключатель раскладки и иконка для трея
  + I Exec exec kbdd 
  + I Exec exec fbxkb
-# Переключатель раскладки и иконка для трея
- + I Exec exec  rofi -key-run mod4+1 -key-window mod4+2 -key-ssh mod4+3
-# Переключалка окон и запускалка программ, альтернатива dmenu
- + I Exec exec xautolock
+# Переключалка окон и запускалка программ, альтернатива dmenu # SuperL|R MetaL|R HyperL|R
+ + I Exec exec rofi -key-run SuperL+1 -key-window SuperL+2 -key-ssh SuperL+3
 # Автоблокировка по таймауту
- + I Exec exec conky -c ~/.conkyrc2dzen | dzen2 -bg moccasin -fg black -x 300 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
+ + I Exec exec xautolock -locker slock -corners 0+00 -cornerdelay 3 -detectsleep -time 15
 # Панелька в 7 пикселов высотой, видна всегда, места занимает мало, смотреть удобно.
 # Более того, способна выполнять действия при щелчке - сейчас это lock и iconify all.
+ + I Exec exec conky -c ~/.conkyrc2dzen_lua | dzen2 -bg moccasin -fg black -x 700 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
 #+END_SRC
 **** Выходим аккуратно
 #+BEGIN_SRC org :tangle ~/.fvwm/config
