@@ -4,7 +4,7 @@
 #+OPTIONS: H:5 num:nil toc:t @:t ::t |:t f:t todo:nil pri:t tags:nil
 #+OPTIONS: <:t *:t email:nil creator:nil timestamp:nil d:nil author:nil html-postamble:nil html-preamble:nil
 #+OPTIONS: TeX:nil LaTeX:nil skip:nil -:t :drawers nil 
-#+PROPERTY: header-args org :padline no
+#+PROPERTY: header-args org :padline no :shebang ""
 #+PROPERTY: header-args sh :padline no :shebang "#!/bin/bash"
 #+CATEGORY: fvwm
 * Справочка
@@ -40,9 +40,9 @@ Echo Beginning style definitions...
    панелька запуска и блокировка экрана соответственно. К dmenu шрифты terminus, тогда кириллица отображается нормально.
 6. dict
    словари
-7. urxvt
-   терминал
-8. нотифаилка (dunst, например) + libnotify-bin
+7. urxvt + yeahconsole
+   эмулятор терминала и обёртка, чтоб сверху выдвигать. Пробовала перепоручить fvwm, но временами из-за этого fvwm принудительно закрывать приходится. Вот, рассчитываю избавиться от проблемы.
+8. нотифаилка (dunst) + libnotify-bin
    получать и отправлять уведомления
 9. xautolock
    чтоб было чему запускать блокировку экрана
@@ -52,6 +52,7 @@ Echo Beginning style definitions...
    переключатель раскладки
 12. fbxkb
    индикатор раскладки
+
 ** Сопутствующие файлики
 *** Xresourses
 #+BEGIN_SRC org :tangle ~/.Xresources
@@ -70,6 +71,11 @@ URxvt*shading:85
 URxvt*saveLines: 3200
 
 *tkTheme: clam
+
+yeahconsole*toggleKey: Win+z
+yeahconsole*consoleHeight: 25
+yeahconsole*term: urxvt
+yeahconsole*stepSize: 0
 #+END_SRC
 *** xinitrc
 #+BEGIN_SRC org :tangle ~/.xinitrc
@@ -237,7 +243,7 @@ window-specific bindings.
 #+BEGIN_SRC org :tangle ~/.fvwm/config
 # 	Button		Context		Modificator	Function
 # quake-style console
-Key	Z		A		4		Start_quickterm
+# Key	Z		A		4		Start_quickterm
 # записать то, что выделено, в файлик
 Key 	C		A		4               Exec exec ~/bin/citcollect  
 # запустить dmenu
@@ -856,7 +862,8 @@ At the end of the second to last line there is a '\', that extends that line ont
 **** Собственно функции
 ***** Аналог yeahconsole
 Отсюда: http://www.fvwmforums.org/phpBB3/viewtopic.php?f=39&t=3046
-#+BEGIN_SRC org :tangle ~/.fvwm/config
+:tangle ~/.fvwm/config
+#+BEGIN_SRC org :tangle no
     DestroyFunc start_quickterm
     AddToFunc start_quickterm
 # Give quickterm state 1 so it can be found if title changes
@@ -2678,7 +2685,8 @@ AddToFunc   InitFunction
  + I Exec exec xautolock -locker slock -corners 0+00 -cornerdelay 3 -detectsleep -time 15
 # Панелька в 7 пикселов высотой, видна всегда, места занимает мало, смотреть удобно.
 # Более того, способна выполнять действия при щелчке - сейчас это lock и iconify all.
- + I Exec exec conky -c ~/.conkyrc2dzen_lua | dzen2 -bg moccasin -fg black -x 700 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
+ + I Exec exec conky -c ~/.conkyrc2dzen_lua | dzen2 -bg moccasin -fg black -x 700 -w 670 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
+ + I Exec exec yeahconsole
 #+END_SRC
 **** Выходим аккуратно
 #+BEGIN_SRC org :tangle ~/.fvwm/config
