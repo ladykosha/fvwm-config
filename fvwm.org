@@ -72,7 +72,7 @@ URxvt*saveLines: 3200
 
 *tkTheme: clam
 
-yeahconsole*toggleKey: Win+z
+yeahconsole*toggleKey: Control+F12
 yeahconsole*consoleHeight: 25
 yeahconsole*term: urxvt
 yeahconsole*stepSize: 0
@@ -249,7 +249,7 @@ Key 	C		A		4               Exec exec ~/bin/citcollect
 # запустить dmenu
 Key	R		A		4		Exec exec dmenu_run -fn '-xos4-terminus-*-*-*-*-*-*-*-*-*-*-*-*'
 # Посмотреть перевод слова
-Key	S		A		4		Exec exec dict "$(xclip -o)" 2>&1 | dzen2 -bg moccasin -fg black -ta l -tw 500 -x 900 -fn "-*-unifont-*-*-*-*-*-*-*-*-*-*-*-*" -h 18 -p -l 20
+# Key	S		A		4		Exec exec dict "$(xclip -o)" 2>&1 | dzen2 -bg moccasin -fg black -ta l -tw 500 -x 900 -fn "-*-unifont-*-*-*-*-*-*-*-*-*-*-*-*" -h 18 -p -l 20
 #+END_SRC
 
 **** The menus via Alt-Shift-Fx
@@ -714,10 +714,9 @@ Style Pidgin            InitialMapCommand Maximize 50 100
 Style gcr-prompter      InitialMapCommand Move 10 50, StaysOnTop, FPGrabFocus
 
 #+END_SRC
-*** Раздача иконок
-**** Set applications Mini Icons and Icons
+**** + Раздача иконок
 #+BEGIN_SRC org :tangle ~/.fvwm/config  
-Style *rxvt      	MiniIcon cat-paw-16.png, Icon urxvt24.png
+Style *rxvt      	MiniIcon cat-paw-16.png, Icon urxvt24.png, InitialMapCommand Maximize 100 100
 Style xfontsel		MiniIcon mini.font.xpm, Icon toolbox.xpm
 Style emacs		MiniIcon mini.edit.xpm, Icon lemacs.xpm
 Style Midnight-Commander MiniIcon mini.filemgr.xpm, Icon Xfm.xpm
@@ -1263,13 +1262,14 @@ Test (f  /etc/X11/fvwm/menudefs.hook) SetDebianMenu
 DestroyMenu Utilities
 AddToMenu   Utilities "Root Menu" Title
 # + "&Часто"%star.png%				Popup Often
-# + "&Программы"%sun2.png%			Popup /Debian/Приложения
++ "&Программы"%sun2.png%			Popup /Debian/Приложения
 + "&Fvwm"%cat-yellow.png%			Popup Fvwm
 # + "&Debian"%debian-logo24.png%	  		Popup /Debian
 + ""				Nop
 + "&Emacs"%emacs22.png%		Exec exec emacsclient -c -a ""
 + "&SpaceFM"			Exec exec /usr/bin/spacefm
-+ "&Iceweasel"			Exec exec /usr/bin/iceweasel
++ "&Firefox"			Exec exec /usr/bin/firefox-esr
++ "&Chromium"			Exec exec /usr/bin/chromium
 + "&Urxvt"                      Exec exec urxvt
 + ""				Nop
 + "&Выход"%apple-red2-24.png%	FvwmForm FvwmForm-QuitVerify
@@ -2679,13 +2679,11 @@ AddToFunc   InitFunction
 # Переключатель раскладки и иконка для трея
  + I Exec exec kbdd 
  + I Exec exec fbxkb
-# Переключалка окон и запускалка программ, альтернатива dmenu # SuperL|R MetaL|R HyperL|R
- + I Exec exec rofi -key-run SuperL+1 -key-window SuperL+2 -key-ssh SuperL+3
 # Автоблокировка по таймауту
  + I Exec exec xautolock -locker slock -corners 0+00 -cornerdelay 3 -detectsleep -time 15
 # Панелька в 7 пикселов высотой, видна всегда, места занимает мало, смотреть удобно.
 # Более того, способна выполнять действия при щелчке - сейчас это lock и iconify all.
- + I Exec exec conky -c ~/.conkyrc2dzen_lua | dzen2 -bg moccasin -fg black -x 700 -w 670 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
+ + I Exec exec conky -c ~/.conkyrc2dzen_lua | dzen2 -bg moccasin -fg black -x 600 -w 800 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
  + I Exec exec yeahconsole
 #+END_SRC
 **** Выходим аккуратно
