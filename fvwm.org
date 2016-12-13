@@ -246,6 +246,7 @@ window-specific bindings.
 # Key	Z		A		4		Start_quickterm
 # записать то, что выделено, в файлик
 Key 	C		A		4               Exec exec ~/bin/citcollect  
+Key 	F3		A		M               Exec exec ~/bin/citcollect  
 # запустить dmenu
 Key	R		A		4		Exec exec dmenu_run -fn '-xos4-terminus-*-*-*-*-*-*-*-*-*-*-*-*'
 # Посмотреть перевод слова
