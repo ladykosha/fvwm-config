@@ -41,7 +41,7 @@ Echo Beginning style definitions...
 6. dict
    словари
 7. urxvt + yeahconsole
-   эмулятор терминала и обёртка, чтоб сверху выдвигать. Пробовала перепоручить fvwm, но временами из-за этого fvwm принудительно закрывать приходится. Вот, рассчитываю избавиться от проблемы.
+   эмулятор терминала и обёртка, чтоб сверху выдвигать. Пробовала перепоручить fvwm, но временами из-за этого fvwm принудительно закрывать приходится. Лучше уж так.
 8. нотифаилка (dunst) + libnotify-bin
    получать и отправлять уведомления
 9. xautolock
@@ -705,6 +705,7 @@ Style * !Title, StartsOnPage 0, !StartShaded
 Style *	SlipperyIcon, IconTitle, IconSize 24 24, Icon cat-paw24.png, MiniIcon cat-paw-16.png
 
 Style *emacs*  InitialMapCommand Maximize 100 100
+Style zathura  InitialMapCommand Maximize 100 100
 Style *stalonetray*	!Title, !Borders, !Handles, !Maximizable, !Iconifiable, !Closable, WindowListSkip, StaysOnTop, InitialMapCommand Move -1 -1
 Style *zenity*		StaysOnTop, Sticky, FPGrabFocus, StartsAnyWhere, InitialMapCommand Move 50 60
 Style "WikidPad i-search" NoTitle, FPGrabFocus, InitialMapCommand Nop
@@ -1267,7 +1268,7 @@ AddToMenu   Utilities "Root Menu" Title
 + "&Fvwm"%cat-yellow.png%			Popup Fvwm
 # + "&Debian"%debian-logo24.png%	  		Popup /Debian
 + ""				Nop
-+ "&Emacs"%emacs22.png%		Exec exec emacsclient -c -a ""
++ "&Emacs"%emacs22.png%		Exec exec emacsclient -c
 + "&SpaceFM"			Exec exec /usr/bin/spacefm
 + "&Firefox"			Exec exec /usr/bin/firefox-esr
 + "&Chromium"			Exec exec /usr/bin/chromium
@@ -2681,11 +2682,11 @@ AddToFunc   InitFunction
  + I Exec exec kbdd 
  + I Exec exec fbxkb
 # Автоблокировка по таймауту
- + I Exec exec xautolock -locker slock -corners 0+00 -cornerdelay 3 -detectsleep -time 15
+# + I Exec exec xautolock -locker slock -corners 0+00 -cornerdelay 3 -detectsleep -time 15
 # Панелька в 7 пикселов высотой, видна всегда, места занимает мало, смотреть удобно.
 # Более того, способна выполнять действия при щелчке - сейчас это lock и iconify all.
  + I Exec exec conky -c ~/.conkyrc2dzen_lua | dzen2 -bg moccasin -fg black -x 600 -w 800 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
- + I Exec exec yeahconsole
+# + I Exec exec yeahconsole
 #+END_SRC
 **** Выходим аккуратно
 #+BEGIN_SRC org :tangle ~/.fvwm/config
