@@ -32,8 +32,8 @@ Echo Beginning style definitions...
    Чтобы из этого файла получить собстно конфиг
 2. dzen2
    панелька и уведомления
-3. conky
-   инфа для панельки
+3. i3status
+   инфа для панельки. Раньше была conky.
 4. xclip
    сгребание буфера обмена для citcollect
 5. dmenu и slock из suckless-tools
@@ -80,8 +80,24 @@ yeahconsole*stepSize: 0
 *** xinitrc
 #+BEGIN_SRC org :tangle ~/.xinitrc
 userresources=~/.Xresources;
+xmodmap -e "add Mod4 = Super_L"; # Winkey - Mod4.
+# xmodmap -e "keysym Menu = Multi_key"; # Всё равно я menu не использую, а compose не лишняя. Да не, и она лишняя.
+xbindkeys;
+xrdb -load .Xresources;
+xphoon;
+kbdd;
+dunst &
+stalonetray & 
+# --geometry=1x1+1333+749 --transparent --decorations=none --grow-gravity=E --icon-gravity SW --icon-size=16 --sticky  --window-layer=top &
+# i3status | while read -r; do xsetroot -name "$REPLY"; done &
+# conky -c ~/.conkyrc2dzen_lua | while read -r; do xsetroot -name "$REPLY"; done &
+# conky -c ~/.conkyrc2dzen_lua | dzen2 -bg moccasin -fg black -x 600 -w 800 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;'&
+# fbxkb &
+# xwrits typetime=40 breaktime=12 -beep +clock +breakclock +idle minbreaktime=12 &
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 & 
-dbus-launch --exit-with-session fvwm;
+# dbus-launch --exit-with-session 
+fvwm;
+# dbus-launch --exit-with-session dwm;
 #+END_SRC
 *** citcollect
 #+BEGIN_SRC sh :tangle ~/bin/citcollect :padline no :shebang "#!/bin/bash"
@@ -158,19 +174,26 @@ DesktopName 3 Game_Talk
 #+END_EXAMPLE
 
 То, что есть - 1, и только один. Пока так удобнее.
-#+BEGIN_SRC  org :tangle ~/.fvwm/config
-DesktopSize 1x1
+#+BEGIN_SRC org :tangle ~/.fvwm/config
+DesktopSize 2x2
 #+END_SRC
 
 *EdgeScroll* - какая часть экрана в процентах прокручивается, когда мышь ткнётся в край экрана горизонталь вертикаль
+#+BEGIN_SRC org  :tangle ~/.fvwm/config
 EdgeScroll 4 2
+#+END_SRC
 
 *EdgeResistance* - насколько велико "сопротивление", точнее, насколько велика задержка перед прокручиванием
+#+BEGIN_SRC org  :tangle ~/.fvwm/config
 Style * EdgeMoveResistance 0
 Style * EdgeMoveDelay 0
+#+END_SRC
 
 *EdgeThickness* - в сколько пикселей толщиной граница, в которую мыши надо ткнуться, чтоб произошла прокрутка
+#+BEGIN_SRC org  :tangle ~/.fvwm/config
 EdgeThickness 1
+#+END_SRC
+
 Если такое прокручивание не нравится, можно установить 'EdgeThickness 0' и/или 'EdgeScroll 0 0'.
 
 **** Про мышь 
@@ -250,7 +273,9 @@ Key 	F3		A		M               Exec exec ~/bin/citcollect
 # запустить dmenu
 Key	R		A		4		Exec exec dmenu_run -fn '-xos4-terminus-*-*-*-*-*-*-*-*-*-*-*-*'
 # Посмотреть перевод слова
-# Key	S		A		4		Exec exec dict "$(xclip -o)" 2>&1 | dzen2 -bg moccasin -fg black -ta l -tw 500 -x 900 -fn "-*-unifont-*-*-*-*-*-*-*-*-*-*-*-*" -h 18 -p -l 20
+Key	S		A		4		Exec exec dict "$(xclip -o)" 2>&1 | dzen2 -bg moccasin -fg black -ta l -tw 500 -x 900 -fn "-*-unifont-*-*-*-*-*-*-*-*-*-*-*-*" -h 18 -p -l 20
+Key     M               A               4               Popup Utilities
+Key     W               A               4               Popup Window
 #+END_SRC
 
 **** The menus via Alt-Shift-Fx
@@ -1270,14 +1295,14 @@ AddToMenu   Utilities "Root Menu" Title
 + ""				Nop
 + "&Emacs"%emacs22.png%		Exec exec emacsclient -c
 + "&SpaceFM"			Exec exec /usr/bin/spacefm
-+ "&Firefox"			Exec exec /usr/bin/firefox-esr
-+ "&Chromium"			Exec exec /usr/bin/chromium
++ "&Falkon"			Exec exec /usr/bin/falkon
++ "Fi&refox"			Exec exec /usr/bin/firefox
 + "&Urxvt"                      Exec exec urxvt
 + ""				Nop
 + "&Выход"%apple-red2-24.png%	FvwmForm FvwmForm-QuitVerify
 #+END_SRC
-**** Often
-#+BEGIN_SRC org :tangle ~/.fvwm/config  
+**** Often                                                            :notinuse:
+#+BEGIN_SRC org :tangle no
 DestroyMenu Often
 AddToMenu   Often
 + "Gti&ck"                      Exec exec gtick
@@ -2027,7 +2052,7 @@ FvwmConsole -e /usr/X11/lib/fvwm/FvwmConsoleC.pl
 # Entering 'g4' or 'g  4' will jump to desk 0 page 0 4 and focus.
 #+END_EXAMPLE
 **** FvwmCpp 							      :notinuse:
-Обрабатывает файл cpp-ей и скармливает fvwm. 
+     Обрабатывает файл cpp-ей и скармливает fvwm. 
 **** FvwmDebug 							      :notinuse:
 This module persistently dumps all fvwm event details and optionally
 some other information into the standard error stream or a file, good
@@ -2677,7 +2702,7 @@ AddToFunc   InitFunction
 # демон уведомлений через libnotify
  + I Exec exec dunst
 # Трей.
- + I Exec exec stalonetray --geometry=1x1+1333+749 --sticky --transparent --decorations=none --grow-gravity=E --icon-gravity SW --icon-size=16 --sticky  --window-layer=top 
+# + I Exec exec stalonetray --geometry=1x1+1333+749 --sticky --transparent --decorations=none --grow-gravity=E --icon-gravity SW --icon-size=16 --sticky  --window-layer=top 
 # Переключатель раскладки и иконка для трея
  + I Exec exec kbdd 
  + I Exec exec fbxkb
@@ -2685,7 +2710,7 @@ AddToFunc   InitFunction
 # + I Exec exec xautolock -locker slock -corners 0+00 -cornerdelay 3 -detectsleep -time 15
 # Панелька в 7 пикселов высотой, видна всегда, места занимает мало, смотреть удобно.
 # Более того, способна выполнять действия при щелчке - сейчас это lock и iconify all.
- + I Exec exec conky -c ~/.conkyrc2dzen_lua | dzen2 -bg moccasin -fg black -x 600 -w 800 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
+ + I Exec exec i3status | dzen2 -bg moccasin -fg black -x 600 -w 800 -ta r -fn -*-*-medium-r-*--8-*-*-*-*-*-iso10646-* -e 'button3=exec:slock;button2=exec:FvwmCommand "All Iconify true"'
 # + I Exec exec yeahconsole
 #+END_SRC
 **** Выходим аккуратно
