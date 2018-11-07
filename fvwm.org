@@ -1293,11 +1293,11 @@ AddToMenu   Utilities "Root Menu" Title
 + "&Fvwm"%cat-yellow.png%			Popup Fvwm
 # + "&Debian"%debian-logo24.png%	  		Popup /Debian
 + ""				Nop
++ "Fi&refox"			Exec exec /usr/bin/firefox
 + "&Emacs"%emacs22.png%		Exec exec emacsclient -c
 + "&SpaceFM"			Exec exec /usr/bin/spacefm
-+ "&Falkon"			Exec exec /usr/bin/falkon
-+ "Fi&refox"			Exec exec /usr/bin/firefox
 + "&Urxvt"                      Exec exec urxvt
++ "&Telegram"			Exec exec /usr/bin/telegram-desktop
 + ""				Nop
 + "&Выход"%apple-red2-24.png%	FvwmForm FvwmForm-QuitVerify
 #+END_SRC
